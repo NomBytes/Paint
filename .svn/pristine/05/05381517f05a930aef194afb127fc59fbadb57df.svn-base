@@ -1,0 +1,73 @@
+/**
+ * 
+ */
+package view;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
+
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+/**
+ * The JMenuBar for this GUI example.
+ * 
+ * @author Monika Sobolewska
+ * @version Spring 2015
+ */
+@SuppressWarnings("serial")
+public class MenuBar extends JMenuBar {
+
+    /** The File menu. */
+    private final JMenu myFileMenu;
+  
+    /** The Edit menu. */
+    private final JMenu myEditMenu;
+  
+    /** The Help menu. */
+    private final JMenu myHelpMenu;
+    
+    protected final JMenuItem mySaveButton;
+    
+    private final JMenuItem myClear;
+    
+    private final JMenuItem myColor; 
+    
+
+    /**
+     * Construct the menu bar.
+     * @custom.post all menu bar elements constructed
+     */
+    public MenuBar() {     
+        super();
+        
+        myFileMenu = new JMenu("File");
+        myEditMenu = new JMenu("Edit");
+        myHelpMenu = new JMenu("Help");
+        myClear = new JMenuItem("Clear");
+        mySaveButton = new JMenuItem("Save");
+        myColor = new JMenuItem("Color");
+        
+        addStuff();
+    }
+    public void addStuff(){
+        add(myFileMenu);
+        add(myEditMenu);
+        add(myHelpMenu);
+        //add(myButton, BorderLayout.SOUTH);
+        myEditMenu.add(myClear);
+        myFileMenu.add(mySaveButton);
+        
+    }
+}
+

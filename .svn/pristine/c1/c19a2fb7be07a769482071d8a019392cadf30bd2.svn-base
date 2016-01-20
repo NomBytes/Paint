@@ -1,0 +1,30 @@
+package controller;
+
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+
+public class ColorAction extends AbstractAction{
+   
+
+    public ColorAction(final JPanel thePanel, final Color theColor) {
+        putValue("color", theColor);
+        putValue("myPanel", thePanel);
+        // TODO Auto-generated constructor stub
+    }
+    public void PanelColorAction(final JPanel thePanel, final ImageIcon theIcon,
+                             final Color theColor) {
+            
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        
+        // TODO Auto-generated method stub
+        
+    }
+
+}

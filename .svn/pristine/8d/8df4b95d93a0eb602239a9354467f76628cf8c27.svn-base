@@ -1,0 +1,42 @@
+/**
+ * 
+ */
+package controller;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+
+import view.ArtPanel;
+
+/**
+ * @author athenac
+ *
+ */
+public class ShapeActions extends AbstractAction {
+
+    /**
+     * 
+     */
+    public ShapeActions(JPanel panel, final ImageIcon theIcon, MouseAdapter m) {
+        putValue("panel", panel);
+        putValue(Action.SMALL_ICON, theIcon);
+        putValue("MouseAdapter", m);
+        // TODO Auto-generated constructor stub
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // TODO Auto-generated method stub
+        putValue(Action.SELECTED_KEY, true);
+        final ArtPanel panel = (ArtPanel) getValue("panel");
+        MouseAdapter M = (MouseAdapter) getValue("MouseAdapter");
+        panel.resetMouseListener(M);
+                        
+    }
+
+}

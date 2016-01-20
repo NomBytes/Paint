@@ -1,0 +1,19 @@
+/**
+ * 
+ */
+package controller;
+
+/**
+ * @author Dondang
+ *
+ */
+public class AnimationActions {
+
+    /**
+     * 
+     */
+    public AnimationActions() {
+        // TODO Auto-generated constructor stub
+    }
+
+}

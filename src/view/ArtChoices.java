@@ -1,0 +1,194 @@
+/**
+ * 
+ */
+package view;
+
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Action;
+import javax.swing.Box;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JColorChooser;
+import javax.swing.JPanel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import controller.ShapeActions;
+
+/**
+ * Project 2.
+ * TCSS 305
+ * @author Athena Castillo
+ * @version 6/11/15
+ */
+public class ArtChoices extends JPanel {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
+    /** A ToolKit. */
+    private static final Toolkit KIT = Toolkit.getDefaultToolkit();
+
+    /** The Dimension of the screen. */
+    private static final Dimension SCREEN_SIZE = KIT.getScreenSize();
+
+    /** The width of the screen. */
+    private static final int SCREEN_WIDTH = (int) (SCREEN_SIZE.width * 0.40);
+
+    /** The height of the screen. */
+    private static final int SCREEN_HEIGHT = (int) (SCREEN_SIZE.height * 0.40);
+    
+    /** The default size for this JPanel. */
+    private static final Dimension DEFUALT_SIZE = new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+    /**
+     * panel meant to draw on.
+     */
+    private final ArtPanel myPanel;
+    /**
+     * color chooser.
+     */
+    private JColorChooser myColor;
+
+    /**
+     * Box used for gui.
+     */
+    private Box myShapeBox;
+    /**
+     * List of actions.
+     */
+    private final static Action[] myShapeActions = new Action[4];
+    /**
+     * tools for shapes.
+     */
+    private final ShapeTools myShapes; 
+    /**
+     * button for background.
+     */
+    private JButton myBackground;
+    /**
+     * Constructor.
+     * @param thePanel panel being drawn on.
+     * @custom.post Panel now has art choices.
+     */
+    public ArtChoices(final ArtPanel thePanel) {
+        super();
+        myPanel = thePanel;  
+        setup();
+        createActions();
+        myShapes = new ShapeTools(myShapeActions);
+        shapeAction();
+        mirrorActions();
+        addColor();
+        add(myShapes);
+        // TODO Auto-generated constructor stub
+    }
+    /**
+     * setsup panel.
+     */
+    public void setup() { 
+        this.setLayout(new FlowLayout());
+        myBackground = new JButton("Set Background Color");
+        myColor = new JColorChooser(Color.BLACK);
+    }
+    /**
+     * making actions for colors.
+     */
+    public void addColor() {
+        myColor.getSelectionModel().addChangeListener(new ChangeListener() {
+
+            @Override
+            public void stateChanged(final ChangeEvent theE) {
+                // TODO Auto-generated method stub
+                myPanel.setColor(myColor.getColor());
+            }
+        }  
+        ); 
+        myBackground.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(final ActionEvent theE) {
+                myPanel.setBackground(myColor.getColor());
+
+            }
+
+        });
+        myShapeBox = Box.createVerticalBox();
+        myColor.setPreviewPanel(new JPanel());
+        myShapeBox.add(myBackground);
+        myShapeBox.add(myColor);
+        add(myShapeBox);
+    }
+    /**
+     * creates actions.
+     */
+    public void createActions() {
+        myShapeActions[0] =
+                        new ShapeActions(myPanel, new ImageIcon("rectangle-icon.gif"),
+                                         myPanel.rectangleMouser());
+        myShapeActions[1] =
+                        new ShapeActions(myPanel, new ImageIcon("circle-outline-32.gif"),
+                                         myPanel.circleMouser());
+        myShapeActions[2] =
+                        new ShapeActions(myPanel, new ImageIcon("Arc.png"),
+                                         myPanel.arcMouser());
+
+        myShapeActions[3] =
+                        new ShapeActions(myPanel, new ImageIcon("Line-icon.png"),
+                                         myPanel.defaultMouser());
+    }
+    /**
+     * gives Shape tools.
+     * @return returns shape tools.
+     */
+    public JPanel getToolBar() {
+        return myShapes;
+    }
+    /**
+     * creates shape actions.
+     */
+    public void shapeAction() {
+        myShapes.setFillListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(final ActionEvent theE) {
+                myPanel.setFlag(myShapes.getCheckBox().isSelected());
+                
+            }
+            
+        });
+        myShapes.setStrokeListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(final ActionEvent theE) {
+                myPanel.setStroke(myShapes.getStrokes().getSelectedIndex());
+                
+            }
+
+            
+        });
+    }
+    /**
+     * Action for mirror.
+     */
+    public void mirrorActions() {
+        myShapes.setMirrorActions(new ActionListener() {
+
+            @Override
+            public void actionPerformed(final ActionEvent theE) {
+                myPanel.activateMirror();
+                
+            }
+            
+        });
+    }
+    
+}

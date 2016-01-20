@@ -1,0 +1,101 @@
+/**
+ * 
+ */
+package controller;
+
+import java.awt.event.ActionListener;
+import java.awt.geom.RectangularShape;
+import java.util.List;
+
+import javax.swing.JPanel;
+
+import model.ArtModel;
+import model.ShapeProperties;
+
+/**
+ * @author Dondang
+ *
+ */
+public abstract class AbstractAnimation implements ActionListener{
+
+
+    /** 
+     * 
+     */
+    protected ArtModel myArtMod;
+    /**
+     * 
+     */
+    protected JPanel myPanel;
+    /**
+     * 
+     */
+    protected int horizontalMove;
+    /**
+     * 
+     */
+    protected int verticalMove;
+    /**
+     * 
+     */
+    protected int speed;
+    /**
+     * 
+     */
+    protected List<ShapeProperties> someList;
+    
+    public AbstractAnimation(JPanel thePanel, ArtModel theArtMod) {
+        myPanel = thePanel;
+        myArtMod = theArtMod;
+     //   myShapeList = theArtMod.getList();
+        someList = myArtMod.getList();
+        speed = 1;
+        horizontalMove = speed;
+        verticalMove = speed;
+        
+        // TODO Auto-generated constructor stub
+    }
+    /**
+     * 
+     * @param n
+     */
+    public void setSpeed(int n){
+        speed = n;
+    }
+    public abstract void fastForward();
+    /**
+     * 
+     */
+    public void updateHorizontalMove() {
+        for (ShapeProperties i : someList) {
+            if(i.getShape() instanceof RectangularShape){
+                if (((RectangularShape) i.getShape()).getMaxX() > myPanel.getWidth()){
+                    horizontalMove = -speed;
+                }
+                else if(((RectangularShape) i.getShape()).getMinX() <= 0) {
+                    horizontalMove = speed;
+                    //System.out.println("updateHorizontalMove() in animation 1");
+                    //System.out.println(horizontalMove);
+                }
+            }
+        }
+    }
+    /**
+     * 
+     */
+    public void updateVerticalMove() {
+        for (ShapeProperties i : someList) {
+            if (i.getShape() instanceof RectangularShape) {
+                if (((RectangularShape) i.getShape()).getMaxY() > myPanel.getHeight()) {
+                    verticalMove = -speed;
+                }
+                else if (((RectangularShape) i.getShape()).getMinY() <= 0) {
+                    verticalMove = speed;
+                    //System.out.println("updateHorizontalMove() in animation 1");
+                    //System.out.println(horizontalMove);
+                }
+            }
+        }
+    }
+
+}

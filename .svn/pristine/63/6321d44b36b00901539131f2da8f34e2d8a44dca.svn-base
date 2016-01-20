@@ -1,0 +1,129 @@
+/**
+ * 
+ */
+package view;
+
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.JToolBar;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import controller.AnimationActions;
+
+/**
+ * @author Dondang
+ *
+ */
+public class AnimationButtons extends JToolBar {
+
+    /**
+     * 
+     */
+    private final ArtPanel myPanel;
+    /**
+     * 
+     */
+    private JButton myFowardMotion;
+    /**
+     * 
+     */
+    private JButton myUpDown;
+    /**
+     * 
+     */
+    private JButton myPlay;
+    /**
+     * 
+     */
+    private JButton myPause;
+    /**
+     * 
+     */
+    private JSlider mySpeed;
+    /**
+     * 
+     */
+    private JButton myFoward;
+    /**
+     * 
+     * @param panel
+     */
+    public AnimationButtons(JPanel panel) {
+        myPanel = (ArtPanel) panel;
+        myFowardMotion = new JButton(new AnimationActions(myPanel,null, myPanel.Animation1()));
+        myUpDown = new JButton(new AnimationActions(myPanel, null, myPanel.Animation2()));
+        myFowardMotion.setText("Foward and Back");
+        myUpDown.setText("up and down");
+        myPlay = new JButton(new ImageIcon("play.png"));
+        myPause = new JButton(new ImageIcon("pause .png"));
+        myFoward = new JButton(new ImageIcon("step-forward.png"));
+        mySpeed = new JSlider(1,20);
+        mySpeed.setMinimumSize(new Dimension(200, 30));
+        mySpeed.setMaximumSize(new Dimension(200, 30));
+        fastFoward();
+        addSliderActions();
+        addPlayPauseActions();
+        addButtons();
+        // TODO Auto-generated constructor stub
+    }
+    public void addButtons(){
+        add(myFowardMotion);
+        add(myUpDown);
+        add(mySpeed);
+        add(myPlay);
+        add(myPause);
+        add(myFoward);
+    }
+    public void addSliderActions(){
+        mySpeed.addChangeListener(new ChangeListener(){
+
+            @Override
+            public void stateChanged(ChangeEvent arg0) {
+                // TODO Auto-generated method stub
+                myPanel.setSpeed(mySpeed.getValue());
+            }
+            
+        });
+    }
+    public void addPlayPauseActions(){
+        myPlay.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                myPanel.timerStart();
+                
+            }
+            
+        });
+        myPause.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                myPanel.timerStop();
+            }
+            
+        });
+    }
+    public void fastFoward(){
+        myFoward.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                myPanel.doFastForward();
+
+            }
+
+
+        });
+    }
+    
+
+}

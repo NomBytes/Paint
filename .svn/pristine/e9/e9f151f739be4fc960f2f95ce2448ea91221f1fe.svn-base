@@ -1,0 +1,79 @@
+/**
+ * 
+ */
+package model;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Shape;
+
+/**
+ * @author athenac
+ *
+ */
+public class ShapeProperties {
+    /**
+     * 
+     */
+    private Shape myShape;
+    private boolean myFlag;
+    private Color myColor;
+    private Graphics2D myPen;
+
+    /**
+     * 
+     */
+    public ShapeProperties(Shape theShape, Color theColor, 
+                           Graphics thePen,
+                           boolean theFlag) {
+        myShape = theShape;
+        myPen = (Graphics2D) thePen; 
+        myPen.setColor(theColor);
+        myFlag = theFlag;
+        fill();
+        // TODO Auto-generated constructor stub
+    }
+    public ShapeProperties(ShapeProperties theShape){
+        this(theShape.getShape(), theShape.getPen().getColor(), 
+             theShape.getPen(),theShape.getFlag());
+    }
+    public void fill(){
+        
+        if(myFlag){
+          myPen.fill(myShape);
+        }
+        
+    }
+    /**
+     * 
+     * @return
+     */
+    public boolean getFlag(){
+        return myFlag;
+        
+    }
+    /**
+     * 
+     * @param theFlag
+     */
+    public void setFlag(boolean theFlag){
+        myFlag = theFlag;
+    }
+    /**
+     * 
+     */
+    public Shape getShape(){
+        return myShape;
+    }
+    /**
+     * 
+     */
+    public Graphics2D getPen(){
+        return myPen;
+    }
+  
+    
+    
+
+}

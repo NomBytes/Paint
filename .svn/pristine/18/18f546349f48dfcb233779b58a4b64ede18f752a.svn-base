@@ -1,0 +1,67 @@
+/**
+ * 
+ */
+package view;
+
+
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JColorChooser;
+import javax.swing.JMenuBar;
+import javax.swing.JPanel;
+
+/**
+ * @author athenac
+ *
+ */
+public class ArtChoices extends JPanel {
+
+    /**
+     * 
+     */
+    private final JButton myColorButton;
+    
+    private final MenuBar myMenu;
+    
+    private final ArtPanel myPanel ;
+    /**
+     * 
+     * @param thePanel
+     */
+    public ArtChoices(ArtPanel thePanel) {
+        myMenu = new MenuBar();
+        myPanel = thePanel;
+        this.setLayout(new FlowLayout());
+        myColorButton = new JButton("Color");
+        addColor();
+        // TODO Auto-generated constructor stub
+    }
+    public void addColor(){
+        myColorButton.addActionListener(new ActionListener(){ // anonymous inner class
+            // process changeColorJButton event
+            @Override
+            public void actionPerformed(ActionEvent event){
+                Color color = JColorChooser.showDialog(ArtChoices.this, 
+                                                       "Choose a color", Color.BLUE);
+                
+                myPanel.setColor(color);
+
+            } 
+
+        } // end anonymous inner class
+                        ); // end addActionListener
+        add(myColorButton);
+    }
+    /**
+     * 
+     * @return
+     */
+    public MenuBar getMenu(){
+        return myMenu;
+    }
+}
+

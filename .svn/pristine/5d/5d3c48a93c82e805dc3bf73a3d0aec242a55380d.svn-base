@@ -1,0 +1,24 @@
+/**
+ * 
+ */
+package view;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
+/**
+ * @author athenac
+ *
+ */
+public class ArtChoices extends JPanel {
+
+    /**
+     * 
+     */
+    private final JButton myColorButton;
+    public ArtChoices() {
+       myColorButton = new JButton("Color");
+        // TODO Auto-generated constructor stub
+    }
+    
+}

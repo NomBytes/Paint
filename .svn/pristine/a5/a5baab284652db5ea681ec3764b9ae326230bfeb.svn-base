@@ -1,0 +1,85 @@
+/**
+ * 
+ */
+package view;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JSlider;
+import javax.swing.JToggleButton;
+import javax.swing.JToolBar;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import controller.AnimationActions;
+
+/**
+ * @author Dondang
+ *
+ */
+public class AnimationButtons extends JToolBar {
+
+    /**
+     * 
+     */
+    private final ArtPanel myPanel;
+    
+    private JButton myFowardMotion;
+    
+    private JButton myUpDown;
+    
+    private JButton myPlay;
+    
+    private JSlider mySpeed;
+    /**
+     * 
+     * @param panel
+     */
+    public AnimationButtons(JPanel panel) {
+        myPanel = (ArtPanel) panel;
+        myFowardMotion = new JButton(new AnimationActions(myPanel,null, myPanel.Animation1()));
+        myUpDown = new JButton(new AnimationActions(myPanel, null, myPanel.Animation2()));
+        myFowardMotion.setText("Foward and Back");
+        myUpDown.setText("up and down");
+        myPlay = new JButton(new ImageIcon("play.png"));
+        mySpeed = new JSlider(1,10);
+        addSliderActions();
+        addPlayActions();
+        addButtons();
+        // TODO Auto-generated constructor stub
+    }
+    public void addButtons(){
+        add(myFowardMotion);
+        add(myUpDown);
+        add(mySpeed);
+        add(myPlay);
+    }
+    public void addSliderActions(){
+        mySpeed.addChangeListener(new ChangeListener(){
+
+            @Override
+            public void stateChanged(ChangeEvent arg0) {
+                // TODO Auto-generated method stub
+                myPanel.setSpeed(mySpeed.getValue());
+            }
+            
+        });
+    }
+    public void addPlayActions(){
+        myPlay.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                myPanel.timerStart();
+                
+            }
+            
+        });
+    }
+
+}

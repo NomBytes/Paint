@@ -1,0 +1,110 @@
+/**
+ * 
+ */
+package controller;
+
+import java.awt.Color;
+import java.awt.Shape;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RectangularShape;
+import java.util.List;
+
+import javax.swing.JPanel;
+
+import model.ArtModel;
+import model.ShapeProperties;
+
+/**
+ * @author athenac
+ *
+ */
+public class Animation2 implements ActionListener {
+    private Shape myShape;
+    /**
+     * 
+     */
+    private Color color;
+    /** 
+     * 
+     */
+    private ArtModel myArtMod;
+    private JPanel myPanel;
+    private List<ShapeProperties> myShapeList;
+    private int horizontalMove;
+    private int verticalMove;
+    List<ShapeProperties> someList;
+
+    /**
+     * 
+     */
+
+    public Animation2(JPanel thePanel, ArtModel theArtMod) {
+        myPanel = thePanel;
+        myArtMod = theArtMod;
+        myShapeList = theArtMod.getList();
+        someList = myArtMod.getList();
+        horizontalMove = 1;
+        verticalMove = 1;
+        // TODO Auto-generated constructor stub
+
+    }
+
+    /**
+     * 
+     */
+
+    /**
+     * 
+     */
+
+    /**
+     * 
+     */
+    // int verticalMove;
+    // int horizontalMove;
+
+    @Override
+    public void actionPerformed(final ActionEvent theEvent) throws ClassCastException {
+
+        // updateVerticalMove();
+        updateVerticalMove();
+        for (ShapeProperties i : someList) {
+
+            ((RectangularShape) i.getShape()).setFrame(((RectangularShape) i.getShape())
+                                                       .getX(),
+                                                       ((RectangularShape) i.getShape())
+                                                       .getY()
+                                                       + verticalMove,
+                                                       ((RectangularShape) i.getShape())
+                                                       .getWidth(),
+                                                       ((RectangularShape) i.getShape())
+                                                       .getHeight());
+        }
+
+        myPanel.repaint();
+    }
+    public void updateVerticalMove()throws ClassCastException {
+        for (ShapeProperties i : someList) {
+            if (((RectangularShape) i.getShape()).getMaxY() > myPanel.getHeight()
+                || ((RectangularShape) i.getShape()).getMinY() <= 0) {
+                verticalMove *= -1;
+            }
+        }
+    }
+    /*
+     * public void updateVerticalMove()throws ClassCastException { for
+     * (ShapeProperties i : someList) { if (((RectangularShape)
+     * i.getShape()).getMaxY() > getHeight() || ((RectangularShape)
+     * i.getShape()).getMinY() <= 0) { verticalMove *= -1; } } }
+     */
+    public void updateHorizontalMove() throws ClassCastException {
+        for (ShapeProperties i : someList) {
+            if (((RectangularShape) i.getShape()).getMaxX() > myPanel.getWidth()
+                            || ((RectangularShape) i.getShape()).getMinX() <= 0) {
+                horizontalMove *= -1;
+            }
+        }
+    }
+}

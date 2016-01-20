@@ -1,0 +1,174 @@
+/**
+ * 
+ */
+package controller;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Point;
+import java.awt.Shape;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
+import java.util.List;
+
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
+import view.ArtPanel;
+import model.ArtModel;
+import model.ShapeProperties;
+
+/**
+ * @author athenac
+ *
+ */
+public class CircleMouser extends MouseAdapter {
+    /**
+     * 
+     */
+    private Point myP1;
+    /**
+     * The second point.
+     */
+    private Point myP2;
+    
+    private Point myP3;
+    /**
+     * Keeps track of the shapes drawn.
+     */
+    private List<ShapeProperties> myShapesList;
+    /**
+     * Path where the line is being drawn.
+     */
+    private Shape myShape;
+    /**
+     * 
+     */
+    private Color color;
+    /** 
+     * 
+     */
+    private ArtModel myArtMod;
+    /**
+     * 
+     */
+    private JPanel myArt;
+    /**
+     * 
+     */
+    boolean myFlag;
+    
+    private BasicStroke myStroke;
+    
+    int stroke;
+    /**
+     * 
+     * @param thePanel
+     * @param theArtMod
+     * @param c
+     */
+    public CircleMouser(JPanel thePanel, ArtModel theArtMod, Color c,boolean flag) {
+
+        myP1 = new Point();
+        myP2 = new Point();
+        myP3 = new Point();
+        myStroke = new BasicStroke(0);
+        this.stroke = 0;
+        //myShape = theShape;
+        myFlag = flag;
+        color = c;
+        myArt = thePanel;
+        myArtMod = theArtMod;
+
+    }
+    
+    /**
+     * 
+     * @param c
+     */
+    public void setColor(Color c){
+        color = c;
+    }
+    public void setFlag(Boolean flag){
+        myFlag = flag;
+    }
+    public void setStroke(int s){
+        stroke = s;
+    }
+    /**
+     * Where the doodle starts.
+     * 
+     * @param theEvent where the mouse is pressed.
+     */
+    @Override
+    public void mousePressed(final MouseEvent theEvent) {
+        myP1.setLocation(theEvent.getX(), theEvent.getY());
+        //myP2.setLocation(theEvent.getX(), theEvent.getY());
+        if(SwingUtilities.isLeftMouseButton(theEvent)){
+            myShape = new Ellipse2D.Double(myP1.getX(), myP1.getY(), 0, 0);
+        }else{
+            myShape = null;
+        }
+
+    }
+
+    @Override
+    public void mouseReleased(final MouseEvent theEvent) {
+        // trying to capture the point where mouse is released.
+        // myP2.setLocation(theEvent.getX(), theEvent.getY());
+
+        //System.out.println("mouseReleased");
+        // repaint();
+
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void mouseDragged(final MouseEvent theEvent) {
+        myP2.setLocation(theEvent.getX(), theEvent.getY());
+        if(myShape != null){
+            
+            final Ellipse2D.Double ell = (Ellipse2D.Double) myShape;
+            ell.setFrame(myP1.getX(),myP1.getY(), Math.abs(myP1.getX()-myP2.getX()),
+                         Math.abs(myP1.getY() - myP2.getY()));
+            
+            
+/*            rect.setRect(myP1.getX(), myP1.getY(), myP2.getX()-myP1.getX(),
+                        myP2.getY() - myP1.getY());
+            if(rect.getWidth()< 0){
+                System.out.println("flip over X");
+                rect.setRect(myP2.getX(), myP1.getY(), Math.abs(myP1.getX()-myP2.getX()),
+                             Math.abs(myP1.getY() - myP2.getY()));
+            }else if(rect.getHeight()< 0){
+                System.out.println("flip over y");
+                rect.setRect(myP1.getX(), myP2.getY(), Math.abs(myP1.getX()-myP2.getX()),
+                             Math.abs(myP2.getY() - myP1.getY()));
+           }else if(rect.getHeight() <= 0 && rect.getWidth() <= 0){
+               rect.setRect(Math.abs(myP1.getX()-myP2.getX()),
+                            Math.abs(myP1.getY() - myP2.getY()),myP1.getX(), myP1.getY());
+           }*/
+           
+//            if(rect.getWidth() == 0/* && rect.getWidth() ==0 */){
+//                myP2.translate(-1, 0);
+//                
+////                rect.setRect(Math.abs(myP1.getX()-myP2.getX()),
+////                       Math.abs(myP1.getY() - myP2.getY()),myP1.getX(), myP1.getY()); 
+//            }
+          
+            //System.out.println(rect);
+            //System.out.println(rect);
+            ShapeProperties shape = new ShapeProperties(myShape, color);
+            shape.setFlag(myFlag);
+            shape.setStroke(stroke);
+            myArtMod.add(shape);
+            
+        }
+        myArt.repaint();
+    }
+
+}

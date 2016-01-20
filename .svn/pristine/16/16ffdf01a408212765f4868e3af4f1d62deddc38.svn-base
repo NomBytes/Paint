@@ -1,0 +1,160 @@
+/**
+ * 
+ */
+package view;
+
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Action;
+import javax.swing.Box;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JColorChooser;
+import javax.swing.JPanel;
+import javax.swing.JToolBar;
+import javax.swing.UIManager;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import controller.ShapeActions;
+
+/**
+ * @author athenac
+ *
+ */
+public class ArtChoices extends JPanel {
+    /** A ToolKit. */
+    private static final Toolkit KIT = Toolkit.getDefaultToolkit();
+
+    /** The Dimension of the screen. */
+    private static final Dimension SCREEN_SIZE = KIT.getScreenSize();
+
+    /** The width of the screen. */
+    private static final int SCREEN_WIDTH = (int) (SCREEN_SIZE.width * 0.40);
+
+    /** The height of the screen. */
+    private static final int SCREEN_HEIGHT = (int)(SCREEN_SIZE.height * 0.40);
+    
+    /** The default size for this JPanel. */
+    private static final Dimension DEFUALT_SIZE = new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT);
+    /**
+     * 
+     */
+
+    //private final MenuBar myMenu;
+    /**
+     * 
+     */
+    private final ArtPanel myPanel;
+    /**
+     * 
+     */
+    private final JColorChooser myColor;
+
+    /**
+     * 
+     */
+    private final Box myShapeBox;
+    /**
+     * 
+     */
+    private final static Action[] myShapeActions = new Action[4];
+    
+    private final static Action[] myAnimationActions = new Action[2];
+    /**
+     * 
+     */
+    private final ShapeTools myShapes;  
+    
+
+    /**
+     * 
+     * @param thePanel
+     */
+    public ArtChoices(final ArtPanel thePanel) {
+        super();
+        //setPreferredSize(DEFUALT_SIZE);
+        //myMenu = new MenuBar();
+        myPanel = thePanel;  
+        this.setLayout(new FlowLayout());
+        myColor = new JColorChooser(Color.BLACK);
+        myShapeBox = Box.createHorizontalBox();
+        createActions();
+        myShapes = new ShapeTools(myShapeActions);
+        ShapeAction();
+        addColor();
+        add(myShapes);
+        // TODO Auto-generated constructor stub
+    }
+
+    public void addColor() {
+        myColor.getSelectionModel().addChangeListener(new ChangeListener() {
+
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                // TODO Auto-generated method stub
+                myPanel.setColor(myColor.getColor());
+            }
+        } // end anonymous inner class
+       ); // end addActionListener
+       
+        myColor.setPreviewPanel(new JPanel());
+        add(myColor);
+    }
+    public void createActions(){
+        myShapeActions[0] = new ShapeActions(myPanel,
+                                            new ImageIcon("rectangle-icon.gif"),myPanel.RectangleMouser());
+        myShapeActions[1] = new ShapeActions(myPanel,
+                                            new ImageIcon("circle-outline-32.gif"), myPanel.CircleMouser());
+//        myActions[2] = new PanelColorAction(myPanel,
+//                                            new ImageIcon("yellow-ball.gif"), Color.YELLOW);
+//        myActions[3] = new PanelColorAction(myPanel,
+//                                            new ImageIcon("greenball.gif"), Color.GREEN);
+    }
+    /**
+     * 
+     * @return
+     */
+    public MenuBar getMenu() {
+        return null;
+        //return myMenu;
+    }
+    /**
+     * 
+     */
+    public JPanel getToolBar(){
+        return myShapes;
+    }
+    /**
+     * 
+     */
+    public void ShapeAction(){
+        myShapes.setFillListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                myPanel.setFlag(myShapes.getCheckBox().isSelected());
+                
+            }
+            
+        });
+        myShapes.setStrokeListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                myPanel.setStroke(myShapes.getStrokes().getSelectedIndex());
+                
+            }
+
+            
+        });
+    }
+    
+}

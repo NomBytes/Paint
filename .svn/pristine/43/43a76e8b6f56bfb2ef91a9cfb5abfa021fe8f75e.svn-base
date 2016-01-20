@@ -1,0 +1,47 @@
+package view;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JMenuBar;
+
+public class ArtFrame extends JFrame {
+    /** A ToolKit. */
+    private static final Toolkit KIT = Toolkit.getDefaultToolkit();//grabbing..
+    
+    /** The Dimension of the screen. */
+    private static final Dimension SCREEN_SIZE = KIT.getScreenSize();//screen size
+    
+    /** The width of the screen. */
+    private static final int SCREEN_WIDTH = (int) (SCREEN_SIZE.width * 0.80);//make if 80 percent of the screen.
+    //100 percern will take up the entire screen.
+    
+    /** The height of the screen. */
+    private static final int SCREEN_HEIGHT = (int) (SCREEN_SIZE.height * 0.80);
+    
+    private ArtPanel myArt;;
+    
+    private ArtChoices myColors;
+
+    public ArtFrame() {
+        //myGuiFrame = new JFrame("ToolBar and MenuBar Example");
+        
+    
+        myArt = new ArtPanel();
+        myColors = new ArtChoices(myArt);
+        setUpMenu();
+        // TODO Auto-generated constructor stub
+    }
+    private void setUpMenu(){
+        setJMenuBar(myColors.getMenu());
+        add(myColors.getToolBar(), BorderLayout.NORTH);
+        add(myArt);
+        add(myColors, BorderLayout.SOUTH);
+        
+        setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+    }
+
+}

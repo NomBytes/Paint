@@ -1,0 +1,416 @@
+/**
+ * 
+ */
+package view;
+
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Shape;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
+import java.awt.geom.RectangularShape;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+
+import model.ArtModel;
+import model.ShapeProperties;
+import controller.AbstractAnimation;
+import controller.Animation1;
+import controller.Animation2;
+import controller.CircleMouser;
+import controller.RectangleMouser;
+
+/**
+ * @author athenac
+ *
+ */
+public class ArtPanel extends JPanel{
+    /** A ToolKit. */
+    private static final Toolkit KIT = Toolkit.getDefaultToolkit();
+
+    /** The Dimension of the screen. */
+    private static final Dimension SCREEN_SIZE = KIT.getScreenSize();
+
+    /** The width of the screen. */
+    private static final int SCREEN_WIDTH = (int) (SCREEN_SIZE.width * 0.50);
+
+    /** The height of the screen. */
+    private static final int SCREEN_HEIGHT = (int)(SCREEN_SIZE.height * 0.50);
+
+    /** The default size for this JPanel. */
+    private static final Dimension DEFUALT_SIZE = new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT);
+    /**
+     * The first point.
+     */
+    private Point myP1;
+    /**
+     * The second point.
+     */
+    private Point myP2;
+    /**
+     * Keeps track of the shapes drawn.
+     */
+    private List<ShapeProperties> myShapesList;
+    /**
+     * Path where the line is being drawn.
+     */
+    private GeneralPath myDoodle;
+    /**
+     * 
+     */
+    private List<ShapeProperties> doodleList;
+    /**
+     * 
+     */
+    private Color color; // stores color used to draw fractal
+    /**
+     * 
+     */
+    private Shape myShape;
+    /**
+     * 
+     */
+    private ArtModel myArtMod;
+    /**
+     * 
+     */
+    final RectangleMouser rect;
+    /**
+     * 
+     */
+    boolean flag;
+    /**
+     * 
+     */
+    private final MouseAdapter myDefaultAdapter;
+    /**
+     * 
+     */
+    private MouseAdapter myCurrentAdapter;
+    /**
+     * 
+     */
+    private final CircleMouser myCircle;
+    //final RectangleMouser rect;
+    private int stroke;
+    
+    private Timer mytimer;
+    int verticalMove;
+    
+    int horizontalMove;
+    
+    private AbstractAnimation myAnime1;
+    private AbstractAnimation myAnime2;
+    private ActionListener currentAnime;
+    int speed;
+    
+    /**
+     * Construct this JPanel.
+     * 
+     * @custom.post white panel of a quarter of a screen size constructed
+     */
+    public ArtPanel() {
+        super();
+        setPreferredSize(DEFUALT_SIZE);
+        setBackground(Color.WHITE);
+        color = Color.BLACK;
+        myP1 = new Point();
+        myP2 = new Point();
+        myShapesList = new ArrayList<ShapeProperties>();
+        doodleList = new ArrayList<ShapeProperties>();
+        myArtMod = new ArtModel(myShapesList);
+        myDefaultAdapter = new Mouser();
+        myCurrentAdapter = myDefaultAdapter;
+        flag = false;
+        stroke = 0;
+        verticalMove= 1;
+        horizontalMove = 1;
+        myAnime1 = new Animation1(this,myArtMod);
+        myAnime2 = new Animation2(this, myArtMod);
+        currentAnime = myAnime2;
+        rect = new RectangleMouser(this, myArtMod, color,flag);
+        myCircle = new CircleMouser(this, myArtMod, color,flag);
+        mytimer = new Timer(80, myAnime2);
+        speed = mytimer.getDelay();
+        mytimer.setDelay(19);
+        //mytimer.start();
+        /*for(int i = 0; i <= 7; i ++){
+            if(i == 1){
+                mytimer.isRepeats();
+            }
+        }*/
+        //mytimer.isRepeats();
+        addMouseListener(myDefaultAdapter);
+        addMouseMotionListener(myDefaultAdapter);
+        
+    }
+    /**
+     * 
+     */
+    public MouseAdapter RectangleMouser(){
+        return rect;
+        
+    }
+    /**
+     * 
+     */
+    public MouseAdapter CircleMouser(){
+        return myCircle;
+    }
+    /**
+     * 
+     * @return
+     */
+    public ActionListener Animation1(){
+        return myAnime1;
+        
+    }
+    /**
+     * 
+     * @return
+     */
+    public ActionListener Animation2(){
+        return myAnime2;
+    }
+    /**
+     * 
+     * @param k
+     */
+    public void setTimer(ActionListener k){
+        mytimer.stop();
+        mytimer = new Timer(80, k);
+        currentAnime = k;
+        //mytimer.start();
+        
+    }
+    /**
+     * 
+     */
+    public void timerStart(){
+        mytimer.start();
+    }
+    /**
+     * 
+     */
+    public void timerStop(){
+        mytimer.stop();
+    }
+    /**
+     * 
+     */
+    public void doFastForward(){
+        
+       mytimer.stop();
+        //System.out.print(speedcounter + " " + setspeed + ". "); //checker
+        //mytimer.stop();
+        //for(int i = 10; i < 0; i--){
+           // mytimer.start();
+            
+         ((AbstractAnimation) currentAnime).fastForward();
+        //}
+        //mytimer.setDelay((setspeed));
+        //mytimer.start();
+        //mytimer.stop();
+        
+       // System.out.print(timer.getDelay() + ".. "); //checker 
+    }
+    /**
+     * 
+     */
+    public void setSpeed( int theSpeed){
+        int n = mytimer.getDelay();
+        int Speed = 25 - theSpeed;
+        mytimer.setDelay(Speed);
+        //((AbstractAnimation) myAnime1).setSpeed(theSpeed);
+        //((AbstractAnimation) myAnime2).setSpeed(theSpeed);
+        
+    }
+    /**
+     * 
+     */
+    /** {@inheritDoc} */
+    @Override
+    public void paintComponent(final Graphics thePen) {
+        super.paintComponent(thePen);
+        final Graphics2D pen = (Graphics2D) thePen;
+        //pen.setColor(color);
+        //keeps shape on display
+        List<ShapeProperties> myList;
+        myList = myArtMod.getList();
+       /* for(ShapeProperties i: doodleList){
+            pen.setColor(i.getColor());
+            pen.setStroke(i.getStroke());
+            pen.draw(i.getShape());
+        }*/
+        
+       for (ShapeProperties i: myList) {
+            pen.setColor(i.getColor());
+            pen.setStroke(i.getStroke());
+            pen.draw(i.getShape());
+            //System.out.println(i);
+            if(i.getFlag()){
+                pen.fill(i.getShape());
+            }
+        } 
+       //System.out.println("ArtMod pass current stroke: " + stroke);
+       pen.setStroke(new BasicStroke(stroke));
+        //shows doodle being drawn
+       
+       if (myDoodle != null) {
+            pen.setStroke(new BasicStroke(stroke));
+            pen.setColor(color);
+            pen.draw(myDoodle);
+            
+        }
+       /*for(ShapeProperties i: myShapesList){
+           pen.setStroke(i.getStroke());
+           pen.draw(i.getShape());
+       }*/
+        //shows shapes being drawn.
+     
+      /*  if(myShape != null){
+            pen.setStroke(new BasicStroke(stroke));
+            pen.setColor(color);
+            pen.draw(myShape);
+        }*/
+        
+    }
+    /**
+     * 
+     */
+    public void setColor(Color c){
+        color = c;
+        rect.setColor(c);
+        myCircle.setColor(c);
+        
+    }
+    /**
+     * 
+     */
+    public void setFlag(boolean b){
+        flag = b;
+        rect.setFlag(b);
+        myCircle.setFlag(b);
+    }
+    /**
+     * 
+     * @param k
+     */
+    public void setStroke(int k){
+        //System.out.println("set Stroke in art panel");
+        stroke = k;
+        System.out.println("curren Stroke: " + k);
+        rect.setStroke(k);
+        myCircle.setStroke(k);
+        
+    }
+    /**
+     * 
+     * @param m
+     */
+    public void resetMouseListener(MouseAdapter m){
+        removeMouseListener(myCurrentAdapter);
+        removeMouseMotionListener(myCurrentAdapter);
+        myCurrentAdapter = m;
+        addMouseListener(m);
+        addMouseMotionListener(m);
+        
+    }
+    /**
+     * 
+     */
+    private class Mouser extends MouseAdapter {
+
+        /**
+         * Where the doodle starts.
+         * @param theEvent where the mouse is pressed.
+         */
+        @Override
+        public void mousePressed(final MouseEvent theEvent) {
+
+            myP1.setLocation(theEvent.getX(), theEvent.getY());
+            myP2.setLocation(theEvent.getX(), theEvent.getY());;
+            
+            if(SwingUtilities.isLeftMouseButton(theEvent)){
+                myDoodle = new GeneralPath();
+                myDoodle.moveTo(myP1.getX(), myP1.getY());
+            }else{
+                myDoodle = null;
+            }
+            
+            
+
+            // TODO Auto-generated method stub
+
+        }
+        /**
+         * @param theEvent the even happening.
+         * @custom.post Shape added once mouse is released.
+         */
+        @Override
+        public void mouseReleased(final MouseEvent theEvent) {
+            // trying to capture the point where mouse is released.
+
+            //keeps doodle to display.
+            if(myDoodle != null){
+                ShapeProperties shape = new ShapeProperties(myDoodle, color);
+                shape.setStroke(stroke);
+                //shape.setFlag(flag);
+                //myShapesList.add(shape);
+                myArtMod.add(shape);
+                //doodleList.add(shape);
+            }
+            myDoodle = null;
+
+
+        }
+
+        /**
+         * Creats the line as the mouse is dragged.
+         * @param theEvent the event happening.
+         */
+        public void mouseDragged(final MouseEvent theEvent) {
+
+            myP1.setLocation(theEvent.getX(), theEvent.getY());
+
+
+
+            myP2.setLocation(theEvent.getX(), theEvent.getY());
+            final Line2D.Double line =
+                            new Line2D.Double(myP1.getX(), myP2.getY(), myP2.getX(),
+                                              myP2.getY());
+            
+            if(myDoodle != null){
+                myDoodle.append(line, true);
+            }
+            //myArtMod.add(new ShapeProperties(line, color));
+            repaint();
+        }
+
+    }
+  
+    /**
+     * 
+     * @author athenac
+     *
+     */
+    private class MouseMove extends MouseAdapter {
+
+    }
+
+
+}

@@ -1,0 +1,28 @@
+package view;
+
+import java.awt.Dimension;
+
+import javax.swing.Action;
+import javax.swing.JToggleButton;
+import javax.swing.JToolBar;
+
+/**
+ * 
+ * @author athenac
+ *
+ */
+public class ShapeToolBar extends JToolBar {
+    /**
+     * 
+     */
+    private JToggleButton myRect;
+    public ShapeToolBar(Action[] myActions) {
+        myRect = new JToggleButton(myActions[0]);
+        // TODO Auto-generated constructor stub
+        add();
+        setPreferredSize(new Dimension(50, 50));
+    }
+    private void add(){
+        add(myRect);
+    }
+}

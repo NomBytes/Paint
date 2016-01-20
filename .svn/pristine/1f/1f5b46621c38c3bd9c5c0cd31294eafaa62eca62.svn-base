@@ -1,0 +1,102 @@
+/**
+ * 
+ */
+package controller;
+
+import java.awt.Color;
+import java.awt.Shape;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RectangularShape;
+import java.util.List;
+
+import javax.swing.JPanel;
+
+import model.ArtModel;
+import model.ShapeProperties;
+
+/**
+ * @author athenac
+ *
+ */
+public class Animation2 extends AbstractAnimation {
+  
+
+    /**
+     * 
+     */
+
+    public Animation2(JPanel thePanel, ArtModel theArtMod) {
+        super(thePanel, theArtMod);
+        
+        // TODO Auto-generated constructor stub
+
+    }
+    /**
+     * 
+     */
+    public void fastForward() {
+        updateVerticalMove();
+        for (ShapeProperties i : someList) {
+            if (i.getShape() instanceof RectangularShape) {
+                ((RectangularShape) i.getShape()).setFrame(((RectangularShape) i.getShape())
+                                                           .getX(),
+                                                           ((RectangularShape) i.getShape())
+                                                           .getY() + verticalMove
+                                                           ,
+                                                           ((RectangularShape) i.getShape())
+                                                           .getWidth()
+                                                           ,
+                                                           ((RectangularShape) i.getShape())
+                                                           .getHeight()
+                                );
+            }
+        }
+        myPanel.repaint();
+    }
+    /**
+     * 
+     */
+    @Override
+    public void actionPerformed(final ActionEvent theEvent) {
+
+        // updateVerticalMove();
+        updateVerticalMove();
+        for (ShapeProperties i : someList) {
+            if (i.getShape() instanceof RectangularShape) {
+                ((RectangularShape) i.getShape()).setFrame(((RectangularShape) i.getShape())
+                                                           .getX()
+                                                           , 
+                                                           ((RectangularShape) i.getShape())
+                                                           .getY()
+                                                           + verticalMove
+                                                           , 
+                                                           ((RectangularShape) i.getShape())
+                                                           .getWidth()
+                                                           , 
+                                                           ((RectangularShape) i.getShape())
+                                                           .getHeight());
+            }
+        }
+        myPanel.repaint();
+    }
+
+    
+    /*
+     * public void updateVerticalMove()throws ClassCastException { for
+     * (ShapeProperties i : someList) { if (((RectangularShape)
+     * i.getShape()).getMaxY() > getHeight() || ((RectangularShape)
+     * i.getShape()).getMinY() <= 0) { verticalMove *= -1; } } }
+     */
+   /* public void updateHorizontalMove() throws ClassCastException {
+        for (ShapeProperties i : someList) {
+            if (((RectangularShape) i.getShape()).getMaxX() >= myPanel.getWidth()
+                            || ((RectangularShape) i.getShape()).getMinX() <= 0) {
+                horizontalMove *= -1;
+                System.out.println("updateHorizontalMove() in animation 2");
+                System.out.println(horizontalMove);
+            }
+        }
+    }*/
+}

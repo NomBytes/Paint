@@ -1,0 +1,42 @@
+
+package view;
+
+import java.awt.Color;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+
+
+
+public class PaintPlusRunner {
+
+    /**
+     * Private constructor to inhibit instantiation.
+     */
+    private PaintPlusRunner() {
+        throw new IllegalStateException();
+    }
+
+    /**
+     * Start point for the program.
+     * 
+     * @param theArgs command line arguments - ignored
+     */
+    public static void main(final String... theArgs) {
+
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                final JFrame frame = new ArtFrame();
+                //frame.setBackground(Color.AQUA);
+                //frame.getContentPane().setBackground(Color.CYAN);
+                //frame.setTitle("Ice Cream Menu");
+               // frame.setSize(700, 300);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//by default if window is clased it doesnt shut the program.
+                //if we want to terminate the program use this methid.
+                frame.setVisible(true);//make visisble
+            }
+        });
+    }
+
+}

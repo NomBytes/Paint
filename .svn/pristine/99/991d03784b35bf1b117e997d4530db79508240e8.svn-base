@@ -1,0 +1,49 @@
+/**
+ * 
+ */
+package controller;
+
+import java.awt.event.ActionListener;
+import java.util.List;
+
+import javax.swing.JPanel;
+
+import model.ArtModel;
+import model.ShapeProperties;
+
+/**
+ * @author Dondang
+ *
+ */
+public abstract class AbstractAnimation implements ActionListener{
+
+    /**
+     * 
+     */
+    //  private Shape myShape;
+    /**
+     * 
+     */
+ //   private Color color;
+    /** 
+     * 
+     */
+    protected ArtModel myArtMod;
+    protected JPanel myPanel;
+ //   private List<ShapeProperties> myShapeList;
+    protected int horizontalMove;
+    protected int speed;
+    List<ShapeProperties> someList;
+    
+    public AbstractAnimation(JPanel thePanel, ArtModel theArtMod) {
+        myPanel = thePanel;
+        myArtMod = theArtMod;
+     //   myShapeList = theArtMod.getList();
+        someList = myArtMod.getList();
+        speed = 1;
+        horizontalMove = speed;
+        
+        // TODO Auto-generated constructor stub
+    }
+
+}

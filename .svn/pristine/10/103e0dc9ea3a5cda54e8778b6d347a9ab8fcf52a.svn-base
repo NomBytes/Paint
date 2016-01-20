@@ -1,0 +1,101 @@
+package view;
+
+import java.awt.Dimension;
+import java.awt.event.ActionListener;
+
+import javax.swing.Action;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JToggleButton;
+import javax.swing.JToolBar;
+
+/**
+ * 
+ * @author athenac
+ *
+ */
+public class ShapeToolBar extends JToolBar {
+    /**
+     * 
+     */
+    private JToggleButton myRect;
+
+    private JToggleButton myCircle;
+
+    private Integer[] StrokeSize = new Integer[100];
+
+    private JComboBox<Integer> StrokeList;
+    
+    private JCheckBox fillCheck;
+    /**
+     * 
+     * @param myActions
+     */
+    public ShapeToolBar(Action[] myActions) {
+        myRect = new JToggleButton(myActions[0]);
+        myCircle = new JToggleButton(myActions[1]);
+        // TODO Auto-generated constructor stub
+        makeArray();
+        StrokeList = new JComboBox(StrokeSize);
+        setUpSize();
+        fillCheck = new JCheckBox("fill");
+        add();
+        setPreferredSize(new Dimension(50, 50));
+    }
+    private void add(){
+        
+        add(myRect);
+        add(myCircle);
+        add(StrokeList);
+        add(fillCheck);
+    }
+    /**
+     * 
+     */
+    private void makeArray(){
+        for(int i = 0; i < 100; i++){
+            StrokeSize[i] = i;                  
+        }
+    }
+    /**
+     * 
+     * @return
+     */
+    public JComboBox getStrokeList(){
+        return StrokeList;
+        
+    }
+    /**
+     * 
+     * @return
+     */
+    public JCheckBox getCheckBox(){
+        return fillCheck;
+    }
+    /**
+     * 
+     */
+    public void setFillListener(ActionListener list){
+        fillCheck.addActionListener(list);
+    }
+    /**
+     * 
+     * @param list
+     */
+    public void setStrokeListener(ActionListener list){
+        StrokeList.addActionListener(list);
+    }
+    /**
+     * 
+     */
+    public JComboBox getStrokes(){
+        return StrokeList;
+    }
+    /**
+     * 
+     */
+    private void setUpSize(){
+        StrokeList.setMinimumSize(new Dimension(40, 20));
+        StrokeList.setMaximumSize(new Dimension(40, 20));
+    }
+}

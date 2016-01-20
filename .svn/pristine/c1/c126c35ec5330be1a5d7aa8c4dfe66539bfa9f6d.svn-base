@@ -1,0 +1,70 @@
+/**
+ * 
+ */
+package controller;
+
+import java.awt.Color;
+import java.awt.Shape;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RectangularShape;
+import java.util.List;
+
+import javax.swing.JPanel;
+
+import model.ArtModel;
+import model.ShapeProperties;
+
+/**
+ * @author athenac
+ *
+ */
+public class Animation1 extends AbstractAnimation {
+    /**
+     * 
+     */
+
+    public Animation1(JPanel thePanel, ArtModel theArtMod) {
+        super(thePanel,theArtMod);
+ 
+    }
+    /**
+     * 
+     */
+    @Override
+    public void actionPerformed(final ActionEvent theEvent){ 
+
+
+        //updateVerticalMove();
+        updateHorizontalMove();
+        for (ShapeProperties i : someList) {
+            if(i.getShape() instanceof RectangularShape){
+                ((RectangularShape) i.getShape()).setFrame(((RectangularShape) i.getShape())
+                                                           .getX()
+                                                           + horizontalMove,
+                                                           ((RectangularShape) i.getShape())
+                                                           .getY()
+                                                           ,
+                                                           ((RectangularShape) i.getShape())
+                                                           .getWidth()
+                                                           ,
+                                                           ((RectangularShape) i.getShape())
+                                                           .getHeight()
+                                );
+            }
+        }
+        myPanel.repaint();
+    }
+
+    /*   public void updateVerticalMove()throws ClassCastException {
+       for (ShapeProperties i : someList) {
+           if (((RectangularShape) i.getShape()).getMaxY() > getHeight()
+               || ((RectangularShape) i.getShape()).getMinY() <= 0) {
+               verticalMove *= -1;
+           }
+       }
+   }
+     */
+   
+}
